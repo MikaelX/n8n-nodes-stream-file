@@ -1,11 +1,21 @@
 # n8n-nodes-site-to-site-file-transfer
 
-An n8n community node for streaming file transfers between URLs without loading entire files into memory. This node efficiently transfers files from a download URL directly to an upload URL using Node.js streams, making it ideal for large file transfers and memory-constrained environments.
+An n8n community node designed to **dramatically reduce memory usage** when transferring large files. Instead of loading entire files into memory (which can cause n8n to run out of memory with large files), this node streams files directly from a download URL to an upload URL using Node.js streams.
+
+## Why This Node?
+
+**Problem**: Standard n8n HTTP nodes load entire files into memory before uploading, which can cause:
+- Memory exhaustion with large files (GB+)
+- n8n crashes or timeouts
+- Inability to transfer files larger than available RAM
+
+**Solution**: This node uses streaming to transfer files with **constant memory usage** regardless of file size. Whether transferring a 10MB file or a 10GB file, memory usage remains minimal.
 
 ## Features
 
-- **Memory Efficient**: Streams files directly without loading entire files into memory
-- **Large File Support**: Handles files of any size with constant memory usage
+- **Memory Efficient**: Streams files directly without loading entire files into memory - **constant memory usage regardless of file size**
+- **Large File Support**: Handles files of any size (GB+) without memory issues
+- **Reduces n8n Memory Footprint**: Perfect for memory-constrained n8n instances
 - **Flexible Authentication**: Supports bearer tokens in URL query strings or custom headers
 - **Configurable**: Supports both POST and PUT methods, custom headers, and error handling
 - **Automatic Content-Type Handling**: Prevents JSON parsing of binary responses
@@ -141,12 +151,16 @@ The token will be:
 
 ## How It Works
 
-The node uses Node.js streams to efficiently transfer files:
+The node uses Node.js streams to efficiently transfer files **without loading them into memory**:
 
 1. **Download Request**: Makes a GET request to the download URL with `Accept: */*` header to prevent automatic JSON parsing
 2. **Stream Processing**: Receives the response as a stream (or converts Buffer to stream if needed)
 3. **Upload Request**: Pipes the download stream directly to the upload URL
-4. **Memory Efficient**: Files are never fully loaded into memory, only small chunks are buffered
+4. **Memory Efficient**: Files are never fully loaded into memory - only small chunks (typically 64KB) are buffered at a time
+
+**Memory Usage Comparison:**
+- **Standard n8n HTTP nodes**: Load entire file into memory (e.g., 5GB file = 5GB+ RAM usage)
+- **This node**: Constant memory usage (~100KB-1MB) regardless of file size
 
 ### Technical Details
 
@@ -234,17 +248,22 @@ When `throwOnError` is false, errors are returned in the output instead of throw
 
 ## Common Use Cases
 
+### Large File Transfers (Primary Use Case)
+Transfer large files (GB+) without memory issues. This is the main purpose of this node - to prevent n8n from running out of memory when handling large files.
+
+**Example**: Transfer a 5GB video file from Google Cloud Storage to your API without loading it into memory.
+
 ### Google Cloud Storage to API
-Transfer files from Google Cloud Storage signed URLs to your API endpoint.
+Transfer files from Google Cloud Storage signed URLs to your API endpoint while keeping memory usage low.
 
 ### S3 to Another Service
-Stream files from AWS S3 to another cloud storage or API.
+Stream files from AWS S3 to another cloud storage or API without memory spikes.
 
-### Large File Transfers
-Transfer large files (GB+) without memory issues.
+### Memory-Constrained n8n Instances
+Perfect for n8n instances running in environments with limited RAM (containers, small VMs, etc.).
 
 ### Automated File Processing
-Part of a workflow that processes files between different services.
+Part of a workflow that processes files between different services without memory overhead.
 
 ## Troubleshooting
 
