@@ -185,9 +185,9 @@ The token will be:
 
 The node uses Node.js streams to efficiently transfer files **without loading them into memory**:
 
-1. **Download Request**: Makes a GET request to the download URL with `Accept: */*` header to prevent automatic JSON parsing
-2. **Stream Processing**: Receives the response as a stream (or converts Buffer to stream if needed)
-3. **Upload Request**: Pipes the download stream directly to the upload URL
+1. **Download Request**: Uses native Node.js `http`/`https` modules to make a GET request to the download URL with `Accept: */*` header to prevent automatic JSON parsing
+2. **Stream Processing**: Receives the response as a true Node.js stream (native HTTP always returns streams, never buffers)
+3. **Upload Request**: Pipes the download stream directly to the upload URL using n8n's `helpers.request()` which correctly handles stream bodies
 4. **Memory Efficient**: Files are never fully loaded into memory - only small chunks (typically 64KB) are buffered at a time
 
 **Memory Usage Comparison:**
@@ -196,10 +196,11 @@ The node uses Node.js streams to efficiently transfer files **without loading th
 
 ### Technical Details
 
-- Uses n8n's `helpers.request()` for download with `encoding: null` to get binary streams
-- Automatically handles Buffer responses by converting them to streams using `Readable.from()`
-- Sets `Accept: */*` header to prevent automatic JSON parsing of binary responses
-- Provides detailed error messages when responses can't be streamed
+- Uses native Node.js `http`/`https` modules for downloads to ensure true streaming (not n8n's `helpers.request()`)
+- Native HTTP always returns streams, guaranteeing no buffering even for large files
+- Upload uses n8n's `helpers.request()` which correctly handles stream bodies
+- Sets `Accept: */*` header on download requests to prevent automatic JSON parsing
+- Provides detailed error messages when transfers fail
 
 ## Output
 
