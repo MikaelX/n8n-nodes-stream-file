@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-site-to-site-file-transfer",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "n8n node for streaming file transfers between URLs without loading files into memory",
 	"keywords": [
 		"n8n-community-node-package",
