@@ -45,13 +45,13 @@ After installation, restart your n8n instance. The node will be automatically av
 
 ```bash
 # Build the node first
-cd /path/to/n8n-nodes-site2site-transfer
+cd /path/to/n8n-nodes-site-to-site-file-transfer
 yarn build
 
 # Install from local path
-npm install /path/to/n8n-nodes-site2site-transfer
+npm install /path/to/n8n-nodes-site-to-site-file-transfer
 # or
-yarn add /path/to/n8n-nodes-site2site-transfer
+yarn add /path/to/n8n-nodes-site-to-site-file-transfer
 
 # Restart n8n
 ```
@@ -62,7 +62,7 @@ For local development and testing:
 
 ```bash
 # Clone the repository
-git clone git@github.com:MikaelX/n8n-nodes-site-to-site-file-transfer.git
+git clone https://github.com/MikaelX/n8n-nodes-site-to-site-file-transfer.git
 cd n8n-nodes-site-to-site-file-transfer
 
 # Install dependencies
@@ -355,7 +355,7 @@ n8n-nodes-site-to-site-file-transfer/
 
 ```bash
 # Clone the repository
-git clone git@github.com:MikaelX/n8n-nodes-site-to-site-file-transfer.git
+git clone https://github.com/MikaelX/n8n-nodes-site-to-site-file-transfer.git
 cd n8n-nodes-site-to-site-file-transfer
 
 # Install dependencies

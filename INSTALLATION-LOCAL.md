@@ -14,7 +14,7 @@ cd /path/to/n8n
 Or manually:
 
 ```bash
-cd /path/to/n8n-nodes-site2site-transfer
+cd /path/to/n8n-nodes-site-to-site-file-transfer
 yarn build
 mkdir -p ~/.n8n/custom
 rm -rf ~/.n8n/custom/n8n-nodes-site-to-site-file-transfer
@@ -27,7 +27,7 @@ ln -sfn "$(pwd)/dist" ~/.n8n/custom/n8n-nodes-site-to-site-file-transfer
 
 1. **Build and link the node:**
    ```bash
-   cd /path/to/n8n-nodes-site2site-transfer
+   cd /path/to/n8n-nodes-site-to-site-file-transfer
    yarn build
    ./scripts/setup-link.sh  # or use the n8n script
    ```
@@ -49,7 +49,7 @@ Now any changes you make will automatically rebuild and n8n will reload the node
 
 1. **Build and link:**
    ```bash
-   cd /path/to/n8n-nodes-site2site-transfer
+   cd /path/to/n8n-nodes-site-to-site-file-transfer
    yarn build
    ./scripts/setup-link.sh
    ```
